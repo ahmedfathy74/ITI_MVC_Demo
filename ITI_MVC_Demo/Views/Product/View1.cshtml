@@ -1,0 +1,19 @@
+﻿<h1>Welcome In ITI </h1>
+@{
+    int x=5;
+    int y = x + 10;
+}
+
+@if(x>y)
+{
+    <h2>X = @x greater than Y = @y</h2>
+}
+else
+{
+    <h2>X = @x less than Y = @y</h2>
+}
+
+@for (var i = 0; i < 10; i++)
+{
+    <li>@(i+1)</li>
+}

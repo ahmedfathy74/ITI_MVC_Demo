@@ -1,0 +1,15 @@
+﻿<!--Strong Type View-->
+
+@model List<Product>
+
+
+<table class="table table-bordered">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td><img src="/Images/@item.Image" style="width:100px" /></td>
+            <td><a href="/Product/Details/@item.Id">Details</a></td>
+        </tr>
+    }
+</table>
