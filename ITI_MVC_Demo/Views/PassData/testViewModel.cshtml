@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "testViewModel";
 }
+@Context.Session.GetString("name"); @*get value from key from session*@
 
 <h1>testViewModel</h1>
 <div style="color:@Model.Color">

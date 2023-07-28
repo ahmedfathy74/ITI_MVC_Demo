@@ -9,6 +9,13 @@ namespace ITI_MVC_Demo
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // add service to be used and knon when the app is statred to know
+
+            builder.Services.AddSession(config =>
+            {
+                config.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -52,6 +59,8 @@ namespace ITI_MVC_Demo
             app.UseRouting();// bt3ml route aw mapping ly controller and for action using mappcontrollerroute
 
             app.UseAuthorization(); // hinte for using authentection before authorization
+
+            app.UseSession(); // add configure for session to be used in the project 
 
             app.MapControllerRoute( // mapping for the specific URL
                 name: "default",
