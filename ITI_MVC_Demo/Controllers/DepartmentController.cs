@@ -15,5 +15,28 @@ namespace ITI_MVC_Demo.Controllers
            // return View();                      // view = index. model = null
            // return View("Index");               // view = index. model = null
         }
+        // Anchor tag open empty form 
+        [HttpGet] //Anchor | Form (get)
+        public IActionResult New()
+        {
+            return View(new Department()); //form
+        }
+        // submit Button ==> store data in db
+        //department/savenew (post)
+        [HttpPost] // Form  
+        public IActionResult SaveNew(Department dept)
+        {
+            if (dept.Name != null)
+            {
+                context.Departments.Add(dept);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("New",dept);
+            }
+        }
+
     }
 }
