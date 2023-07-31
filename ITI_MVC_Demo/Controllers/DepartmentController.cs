@@ -1,5 +1,6 @@
 ﻿using ITI_MVC_Demo.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ITI_MVC_Demo.Controllers
 {
@@ -36,6 +37,11 @@ namespace ITI_MVC_Demo.Controllers
             {
                 return View("New",dept);
             }
+        }
+        public IActionResult Details(int deptId)
+        {
+            Department department = context.Departments.Include(e=>e.Employees).FirstOrDefault(d=>d.Id== deptId);
+            return View(department);
         }
 
     }

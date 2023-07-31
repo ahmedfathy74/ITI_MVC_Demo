@@ -1,0 +1,42 @@
+﻿@model List<Employee>
+@{
+    Layout = "_AdvLayout";
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<a asp-action="New" asp-controller="Employee">New </a>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Salary</th>
+        <th>Image</th>
+        <th>Address</th>
+        <th>Department Name</th>
+        <th>Edit Employee</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Salary</td>
+            <td>@item.Image</td>
+            <td>@item.Address</td>
+            <td>@item.department.Name</td>
+            <td><a href="/Employee/Edit/@item.Id">EditEmployee</a></td>
+            
+        </tr>
+    }
+
+</table>
+
+@section Scripts{
+    <script>
+        function fun1()
+        {
+            var id = @Model.FirstOrDefault().Id;
+        }
+    </script>
+}
