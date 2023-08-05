@@ -22,18 +22,19 @@ namespace ITI_MVC_Demo.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SaveNew(Employee newEmployee)
         {
-            if(newEmployee.Name is not null)
+            if(ModelState.IsValid)
             {
                 context.Employees.Add(newEmployee);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            else
-            {
-                List<Department> deptList = context.Departments.ToList();
-                ViewData["deptList"] = deptList;
-                return View("New", newEmployee);
-            }
+            // can we add error to modestate but this error will be when add validatesummry = all
+            //ModelState.AddModelError("Name", "name must contain ITI");
+
+            List<Department> deptList = context.Departments.ToList();
+            ViewData["deptList"] = deptList;
+            return View("New", newEmployee);
+            
         }
 
         public IActionResult Index()

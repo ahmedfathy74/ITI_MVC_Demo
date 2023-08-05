@@ -7,8 +7,8 @@ namespace ITI_MVC_Demo.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage ="Name Required ")]
-        [MaxLength(25)]
-        [MinLength(3)]
+        [MaxLength(25,ErrorMessage ="Name Must be less than 25 Char")]
+        [MinLength(3, ErrorMessage = "Name Must be More than 2 Char")]
         public string Name { get; set; } = null!;
         public int Salary { get; set; }
         [RegularExpression(@"w\{1,}\.(jpg|png)",ErrorMessage ="image must be jpj or png")]

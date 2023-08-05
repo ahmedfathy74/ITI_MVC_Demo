@@ -39,7 +39,7 @@ namespace ITI_MVC_Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("ITI_MVC_Demo.Models.Employee", b =>
@@ -71,7 +71,7 @@ namespace ITI_MVC_Demo.Migrations
 
                     b.HasIndex("Dept_Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("ITI_MVC_Demo.Models.Employee", b =>

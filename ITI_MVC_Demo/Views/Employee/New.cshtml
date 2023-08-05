@@ -7,21 +7,26 @@
 <h1>New</h1>
  
 <form asp-action="SaveNew" asp-controller="Employee" method="post"> @*asp-route-id="@Model.Id" in case of edit*@ 
-    <div>
+@*  <div asp-validation-summary="All" class="text-danger"></div>*@    
+<div>
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div> 
     <div>
         <label asp-for="Salary"></label>
         <input asp-for="Salary" class="form-control"/>
+        <span asp-validation-for="Salary" class="text-danger"></span>
     </div> 
     <div>
         <label asp-for="Image"></label>
         <input asp-for="Image" class="form-control"/>
+        <span asp-validation-for="Image" class="text-danger"></span>
     </div> 
     <div>
         <label asp-for="Address"></label>
         <input asp-for="Address" class="form-control"/>
+        <span asp-validation-for="Address" class="text-danger"></span>
     </div> 
     <div>
         <label asp-for="Dept_Id"></label>
@@ -29,6 +34,12 @@
         <select asp-for="Dept_Id" class="form-control" asp-items="deptList">
             <option value="0">Select Department</option>
         </select>
+        <span asp-validation-for="Dept_Id" class="text-danger"></span>
      </div> 
     <input type="submit" value="Add" class="btn btn-success"/>
 </form>
+@section Scripts{
+    <!--Jquery Package-->
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
