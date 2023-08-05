@@ -1,0 +1,47 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "New";
+}
+
+<h1>New</h1>
+
+@*@Html.ActionLink("back To List","Index","Department",new{deptId=1,id=22},new{@class="btn btn-success"})*@
+@*@Html.ActionLink("BackTo List","Index","Department")*@
+
+<a asp-action="Index" asp-controller="Department">Back To List</a>
+<a asp-action="Details" asp-controller="Department" asp-route-deptId="3" asp-route-id="11" asp-fragment="up">Details</a>
+
+<form asp-action="SaveNew" asp-controller="Department">
+    @*by default f l tag helper method=post*@
+    @*method="post" action="/Department/SaveNew"*@
+    <div>
+      @* 
+          Pure Html
+        <label>Name</label>
+        <input type="text" name="Name" class="form-control" value="@Model.Name" id="Name"/>
+      *@
+
+      <!--HTML Helper-->
+      @*@Html.TextBox("Name")*@ 
+      
+@*        @Html.LabelFor(s=>s.Name)
+*@
+      @*@Html.TextBoxFor(s=>s.Name,
+        new{style="color:red",placeholder="Enter Dept Name",@class="form-control"})*@
+@*        @Html.EditorFor(s=>s.Name,new{htmlAttributes=new{@class="form-control"}})
+*@
+        <!--string text, int number ,bool check,string password ==> howa hna byshof l propperty l type bta3ha eh we y7oto bs l awl bybos 3la l datatype data annotation-->
+
+        <!--Tag Helper -->
+        <label asp-for="Name"></label> @*for hya l btro7 t3ml binding l kol l 7agat swa id/name/value based on l model l gy ll view*@
+        <input class="form-control" asp-for="Name"/>
+    </div>
+    <div>
+        <label>Manager Name</label>
+        <input type="text" name="ManagerName" class="form-control" value="@Model.ManagerName" />
+    </div>
+    <br />
+    <input type="submit" value="Add" class="btn btn-success"/>
+</form>
+<br />
+<a href="/Department/index" class="btn btn-primary">Back To List</a>

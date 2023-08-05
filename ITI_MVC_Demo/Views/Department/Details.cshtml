@@ -1,0 +1,22 @@
+﻿@model Department
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+
+<div >
+    <label class="col-form-label-lg" asp-for="Name"></label>
+    <input class="form-control"  asp-for="Name" />
+    <label class="col-form-label-lg" asp-for="ManagerName"></label>
+    <input class="form-control"  asp-for="ManagerName" />
+    <label class="col-form-label-lg" asp-for="Employees"></label>
+    @foreach (var item in Model.Employees)
+    {
+        <input class="form-control" asp-for="@item.Name" />
+
+    }
+</div>
+

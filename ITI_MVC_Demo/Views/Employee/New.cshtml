@@ -1,0 +1,34 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "New";
+    SelectList deptList = new SelectList(ViewBag.deptDropDwonList,"Id","Name"); // cast List<dept> to IEnum<SelectListItem>
+}
+
+<h1>New</h1>
+ 
+<form asp-action="SaveNew" asp-controller="Employee" method="post"> @*asp-route-id="@Model.Id" in case of edit*@ 
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div> 
+    <div>
+        <label asp-for="Salary"></label>
+        <input asp-for="Salary" class="form-control"/>
+    </div> 
+    <div>
+        <label asp-for="Image"></label>
+        <input asp-for="Image" class="form-control"/>
+    </div> 
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control"/>
+    </div> 
+    <div>
+        <label asp-for="Dept_Id"></label>
+@*        <input asp-for="Dept_Id" class="form-control"/>*@
+        <select asp-for="Dept_Id" class="form-control" asp-items="deptList">
+            <option value="0">Select Department</option>
+        </select>
+     </div> 
+    <input type="submit" value="Add" class="btn btn-success"/>
+</form>
