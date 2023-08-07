@@ -8,6 +8,7 @@
  
 <form asp-action="SaveNew" asp-controller="Employee" method="post"> @*asp-route-id="@Model.Id" in case of edit*@ 
 @*  <div asp-validation-summary="All" class="text-danger"></div>*@    
+<input asp-for="Id" type="hidden" />
 <div>
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />

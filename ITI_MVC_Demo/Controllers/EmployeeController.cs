@@ -1,12 +1,27 @@
 ﻿using ITI_MVC_Demo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace ITI_MVC_Demo.Controllers
 {
     public class EmployeeController : Controller
     {
         ITIEntity context = new ITIEntity();
+
+        public IActionResult TestUnique(string Name,string Address,string Image)
+        {
+            Employee smp = context.Employees.FirstOrDefault(e => e.Name == Name);
+            if(smp == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
+
 
 
         public IActionResult New()
