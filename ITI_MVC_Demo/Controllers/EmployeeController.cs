@@ -9,6 +9,19 @@ namespace ITI_MVC_Demo.Controllers
     {
         ITIEntity context = new ITIEntity();
 
+        public IActionResult Index()
+
+        {
+            List<Employee> employeesModel = context.Employees.Include(e => e.department).ToList();
+            return View(employeesModel);
+        }
+
+        public IActionResult EmployeeCardDetails(int empid)
+        {
+            Employee employee = context.Employees.FirstOrDefault(e=>e.Id == empid);
+            return PartialView("_EmployeeCard", employee);
+        }
+
         public IActionResult TestUnique(string Name,string Address,string Image)
         {
             Employee smp = context.Employees.FirstOrDefault(e => e.Name == Name);
@@ -21,8 +34,6 @@ namespace ITI_MVC_Demo.Controllers
                 return Json(false);
             }
         }
-
-
 
         public IActionResult New()
         {
@@ -52,12 +63,6 @@ namespace ITI_MVC_Demo.Controllers
             
         }
 
-        public IActionResult Index()
-        
-        {
-            List<Employee> employeesModel = context.Employees.Include(e=>e.department).ToList();
-            return View(employeesModel);
-        }
         public IActionResult Edit(int id)
         {
             Employee employee = context.Employees.FirstOrDefault(e=>e.Id==id);

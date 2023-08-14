@@ -4,6 +4,23 @@
     ViewData["Title"] = "Index";
 }
 
+@*<div style="display:flex;flex-wrap:nowrap">
+    @foreach(var item in Model)
+    {
+        <partial name="_EmployeeCard" model="item" />
+    }
+</div>
+*@
+
+<select id="Emid" class="form-control" onchange="getdata()">
+    @foreach(var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
+<div id="div1" style="background-color:magenta"></div>
+<br />
+
 <h1>Index</h1>
 <a asp-action="New" asp-controller="Employee">New </a>
 <table class="table table-bordered table-hover">
@@ -32,11 +49,32 @@
 
 </table>
 
+
+
 @section Scripts{
+    @*<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>*@
     <script>
         function fun1()
         {
             var id = @Model.FirstOrDefault().Id;
+        };
+        function getdata()
+        {
+            var id = $("#Emid").val();
+             console.log(id);
+
+             $.ajax({
+                url: "/Employee/EmployeeCardDetails",//?empid="+id,
+                data: { "empid":id},
+                success:function(result){
+                    $("#div1").html(result);
+                },
+                error:function()
+                {
+                    alert("Something Wrong");
+                }
+             });
         }
     </script>
 }
