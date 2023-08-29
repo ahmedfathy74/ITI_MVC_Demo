@@ -1,4 +1,5 @@
 ﻿using ITI_MVC_Demo.Models;
+using ITI_MVC_Demo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
@@ -7,24 +8,30 @@ namespace ITI_MVC_Demo.Controllers
 {
     public class EmployeeController : Controller
     {
-        ITIEntity context = new ITIEntity();
-
+        IEmployeeRepository EmployeeService;//= new EmployeeRepository();
+        IDepartmentRepository deptService;// = new DepartmentRepository();
+        //DI 
+        //IOC container ==ServiceProvider
+        public EmployeeController(IEmployeeRepository _stdPro, IDepartmentRepository _deptRepo)
+        {
+            //intial
+            EmployeeService = _stdPro;
+            deptService = _deptRepo;
+        }
         public IActionResult Index()
 
         {
-            List<Employee> employeesModel = context.Employees.Include(e => e.department).ToList();
-            return View(employeesModel);
+            return View(EmployeeService.getAll());
         }
 
         public IActionResult EmployeeCardDetails(int empid)
         {
-            Employee employee = context.Employees.FirstOrDefault(e=>e.Id == empid);
-            return PartialView("_EmployeeCard", employee);
+            return PartialView("_EmployeeCard", EmployeeService.getById(empid));
         }
 
         public IActionResult TestUnique(string Name,string Address,string Image)
         {
-            Employee smp = context.Employees.FirstOrDefault(e => e.Name == Name);
+            Employee smp = EmployeeService.getByNAme(Name);
             if(smp == null)
             {
                 return Json(true);
@@ -39,7 +46,7 @@ namespace ITI_MVC_Demo.Controllers
         {
             // it will not throw exception like previous case that will send an new Department{} dummy object ==>new employee{}
             // because tag helper fix this issue by put all proprties equal null.
-            List<Department> deptDropDwonList = context.Departments.ToList();
+            List<Department> deptDropDwonList = deptService.getAll();
             ViewData["deptDropDwonList"] = deptDropDwonList;
             return View();
         }
@@ -50,14 +57,13 @@ namespace ITI_MVC_Demo.Controllers
         {
             if(ModelState.IsValid)
             {
-                context.Employees.Add(newEmployee);
-                context.SaveChanges();
+                EmployeeService.Create(newEmployee);
                 return RedirectToAction("Index");
             }
             // can we add error to modestate but this error will be when add validatesummry = all
             //ModelState.AddModelError("Name", "name must contain ITI");
 
-            List<Department> deptList = context.Departments.ToList();
+            List<Department> deptList = deptService.getAll();
             ViewData["deptList"] = deptList;
             return View("New", newEmployee);
             
@@ -65,8 +71,8 @@ namespace ITI_MVC_Demo.Controllers
 
         public IActionResult Edit(int id)
         {
-            Employee employee = context.Employees.FirstOrDefault(e=>e.Id==id);
-            List<Department> dept = context.Departments.ToList();
+            Employee employee = EmployeeService.getById(id);
+            List<Department> dept = deptService.getAll();
             ViewData["dept"] = dept;
             return View(employee);
         }
@@ -75,18 +81,12 @@ namespace ITI_MVC_Demo.Controllers
         {
             if(empModel.Name is not null)
             {
-                Employee oldEmp = context.Employees.FirstOrDefault(e => e.Id == id);
-                oldEmp.Name = empModel.Name;
-                oldEmp.Salary = empModel.Salary;
-                oldEmp.Address = empModel.Address;
-                oldEmp.Image = empModel.Image;
-                oldEmp.Dept_Id = empModel.Dept_Id;
-                context.SaveChanges();
+                EmployeeService.Update(id, empModel);
                 return RedirectToAction("Index");
             }
             else
             {
-                List<Department> dept = context.Departments.ToList();
+                List<Department> dept = deptService.getAll();
                 ViewData["dept"] = dept;
                 return View("Edit", empModel);
             }

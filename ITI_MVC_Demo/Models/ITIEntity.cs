@@ -2,12 +2,16 @@
 
 namespace ITI_MVC_Demo.Models
 {
+    //databse name -name server - authantic
+
     public class ITIEntity : DbContext
     {
         public ITIEntity() : base()
         {
 
         }
+        //injection need to this constructor
+
         public ITIEntity(DbContextOptions options):base(options)
         {
 

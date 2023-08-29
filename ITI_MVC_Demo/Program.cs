@@ -1,3 +1,7 @@
+using ITI_MVC_Demo.Models;
+using ITI_MVC_Demo.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace ITI_MVC_Demo
 {
     public class Program
@@ -11,6 +15,12 @@ namespace ITI_MVC_Demo
 
             // add service to be used and knon when the app is statred to know
 
+            builder.Services.AddDbContext<ITIEntity>(options => 
+            options.UseSqlServer("Data Source=.; Initial Catalog=ITIMVCDB ;Integrated Security=True;"));
+            //register my custom service "your class "
+            //services.AddSingleton<typesource,Type create instance>
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddSession(config =>
             {
                 config.IdleTimeout = TimeSpan.FromMinutes(20);

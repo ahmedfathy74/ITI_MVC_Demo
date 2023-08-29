@@ -1,16 +1,27 @@
 ﻿using ITI_MVC_Demo.Models;
+using ITI_MVC_Demo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITI_MVC_Demo.Controllers
 {
+    //Share -controllerNAme high level  =>
+    ////controalerfactory studentcontroller=new studentcontroler();//container
     public class DepartmentController : Controller
     {
-        ITIEntity context = new ITIEntity();
+        //ITIEnitities context = new ITIEnitities();
+        IDepartmentRepository DepartmentRepository;//loosly -tight
+        IEmployeeRepository EmployeeRepo;
+        //DI implement & DIP depences inversion princle
+        public DepartmentController(IDepartmentRepository _deptREpo, IEmployeeRepository _stdRepo)
+        {
+            DepartmentRepository = _deptREpo;// new DepartmentRepository();
+            EmployeeRepo = _stdRepo;// new StudentRepository();
+        }
         public IActionResult Index()
         {
             // Get All Department 
-            List<Department>deptListModel = context.Departments.ToList();
+            List<Department> deptListModel = DepartmentRepository.getAll();
            // return View("Index",deptListModel); // view = index, model = deptlistmodel
             return View(deptListModel);           // view = index. model = deptlistmodel
            // return View();                      // view = index. model = null
@@ -29,8 +40,7 @@ namespace ITI_MVC_Demo.Controllers
         {
             if (dept.Name != null)
             {
-                context.Departments.Add(dept);
-                context.SaveChanges();
+                DepartmentRepository.Create(dept);
                 return RedirectToAction("Index");
             }
             else
@@ -40,7 +50,8 @@ namespace ITI_MVC_Demo.Controllers
         }
         public IActionResult Details(int deptId)
         {
-            Department department = context.Departments.Include(e=>e.Employees).FirstOrDefault(d=>d.Id== deptId);
+            // Department department = context.Departments.Include(e=>e.Employees).FirstOrDefault(d=>d.Id== deptId);
+            Department department = DepartmentRepository.getById(deptId);
             return View(department);
         }
 
