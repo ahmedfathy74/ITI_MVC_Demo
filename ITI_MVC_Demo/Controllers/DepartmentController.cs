@@ -1,5 +1,6 @@
 ﻿using ITI_MVC_Demo.Models;
 using ITI_MVC_Demo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ namespace ITI_MVC_Demo.Controllers
             DepartmentRepository = _deptREpo;// new DepartmentRepository();
             EmployeeRepo = _stdRepo;// new StudentRepository();
         }
+
+        [Authorize]
         public IActionResult Index()
         {
             // Get All Department 
@@ -48,6 +51,7 @@ namespace ITI_MVC_Demo.Controllers
                 return View("New",dept);
             }
         }
+        [Authorize]
         public IActionResult Details(int deptId)
         {
             // Department department = context.Departments.Include(e=>e.Employees).FirstOrDefault(d=>d.Id== deptId);

@@ -1,5 +1,6 @@
 using ITI_MVC_Demo.Models;
 using ITI_MVC_Demo.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITI_MVC_Demo
@@ -17,6 +18,9 @@ namespace ITI_MVC_Demo
 
             builder.Services.AddDbContext<ITIEntity>(options => 
             options.UseSqlServer("Data Source=.; Initial Catalog=ITIMVCDB ;Integrated Security=True;"));
+            // add usermanger - siginmanager - rolemanager
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ITIEntity>();
+
             //register my custom service "your class "
             //services.AddSingleton<typesource,Type create instance>
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
@@ -67,6 +71,8 @@ namespace ITI_MVC_Demo
             app.UseStaticFiles(); // html , CSS , JS files wwwroot
 
             app.UseRouting();// bt3ml route aw mapping ly controller and for action using mappcontrollerroute
+
+            app.UseAuthentication(); // check for cokkie is vaild or not (that has username & Password)
 
             app.UseAuthorization(); // hinte for using authentection before authorization
 

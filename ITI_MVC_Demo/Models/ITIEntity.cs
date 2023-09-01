@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ITI_MVC_Demo.Models
 {
     //databse name -name server - authantic
 
-    public class ITIEntity : DbContext
+    public class ITIEntity : IdentityDbContext
     {
         public ITIEntity() : base()
         {
