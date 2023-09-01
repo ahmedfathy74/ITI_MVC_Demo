@@ -91,6 +91,40 @@ namespace ITI_MVC_Demo.Controllers
             return RedirectToAction("Login", "Account");
         }
 
+        public IActionResult addAdmin()
+        {
+            return View("Registeration");
+        }
+
+        // action form ==> database
+        [HttpPost]
+        public async Task<IActionResult> addAdmin(RegisterAccountViewModel newAccount)
+        {
+            if (ModelState.IsValid)
+            {
+                //map from vm to Model
+                IdentityUser user = new IdentityUser();
+                user.UserName = newAccount.UserName;
+                user.Email = newAccount.Email;
+                // how to save user and create cookie
+                IdentityResult result = await userManager.CreateAsync(user, newAccount.Password);
+                if (result.Succeeded)
+                {
+                    //add to admin role
+                    await userManager.AddToRoleAsync(user, "Admin");
+                    //create cookie
+                    await signInManager.SignInAsync(user, isPersistent: false); //create cookie
+                    return RedirectToAction("Index", "Department");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            return View("Registeration", newAccount);
+        }
+
         public IActionResult Index()
         {
             return View();

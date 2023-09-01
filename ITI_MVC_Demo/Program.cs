@@ -2,6 +2,7 @@ using ITI_MVC_Demo.Models;
 using ITI_MVC_Demo.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace ITI_MVC_Demo
 {
@@ -15,9 +16,9 @@ namespace ITI_MVC_Demo
             builder.Services.AddControllersWithViews();
 
             // add service to be used and knon when the app is statred to know
-
+            string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ITIEntity>(options => 
-            options.UseSqlServer("Data Source=.; Initial Catalog=ITIMVCDB ;Integrated Security=True;"));
+            options.UseSqlServer(connectionString));
             // add usermanger - siginmanager - rolemanager
             builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ITIEntity>();
 
@@ -66,6 +67,8 @@ namespace ITI_MVC_Demo
 
             if (!app.Environment.IsDevelopment())
             {
+                // the next line for handle any status code to go to error page i will built it or it used in shared folder.
+                app.UseStatusCodePagesWithRedirects("/Home/Error");
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles(); // html , CSS , JS files wwwroot
@@ -81,6 +84,12 @@ namespace ITI_MVC_Demo
             app.MapControllerRoute( // mapping for the specific URL
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            // custome route for department controller with another controller name using routing
+            app.MapControllerRoute( // mapping for the specific URL
+              name: "default2",
+              pattern: "Dept/{age:int}", // add constrians for age paramter
+              defaults: new {Controller = "Department",action="index"}
+              );
 
             // using to run application and not shut down the app.
             app.Run();
